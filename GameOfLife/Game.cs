@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 
 namespace GameOfLife
 {
@@ -10,8 +11,8 @@ namespace GameOfLife
 
         public Game()
         {
-            var folder = @"D:\_programming projects\GameOfLife\GameOfLife\patterns\";
-            Files = Directory.GetFiles(folder, "*.txt");
+            var folder = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
+            Files = Directory.GetFiles(folder + "\\patterns", "*.txt");
         }
 
         public void NewGame()
