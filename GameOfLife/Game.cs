@@ -6,13 +6,13 @@ namespace GameOfLife
 {
     public class Game
     {
-        public string[] Files { get; }
-        public int Option { get; private set; }
+        private readonly string[] _files;
+        private int _option;
 
         public Game()
         {
             var folder = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
-            Files = Directory.GetFiles(folder + "\\patterns", "*.txt");
+            _files = Directory.GetFiles(folder + "\\patterns", "*.txt");
         }
 
         public void NewGame()
@@ -30,10 +30,10 @@ namespace GameOfLife
             Console.WriteLine("Use \"O\" for alive tiles and \"-\" for dead tiles.");
             Console.WriteLine();
 
-            for (var i = 0; i < Files.Length; i++)
-                Console.WriteLine(i + 1 + ": " + Path.GetFileNameWithoutExtension(Files[i]));
+            for (var i = 0; i < _files.Length; i++)
+                Console.WriteLine(i + 1 + ": " + Path.GetFileNameWithoutExtension(_files[i]));
 
-            Console.WriteLine(Files.Length + 1 + ": Random");
+            Console.WriteLine(_files.Length + 1 + ": Random");
             Console.Write("Enter number to load board: ");
         }
 
@@ -41,8 +41,14 @@ namespace GameOfLife
         {
             int.TryParse(input, out var option);
             option--;
-            Option = option;
+            _option = option;
         }
 
+        public void SetBoard(Board board)
+        {
+            board.Set(_option == _files.Length
+                ? new BoardGenerator().GenerateRandom(Constants.BoardRows, Constants.BoardColumns)
+                : new BoardGenerator().GenerateFromFile(_files[_option]));
+        }
     }
 }

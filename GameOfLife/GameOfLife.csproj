@@ -75,7 +75,7 @@
     <Compile Include="BoardGenerator.cs" />
     <Compile Include="BoardIterator.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="BoardProcessor.cs" />
+    <Compile Include="Board.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

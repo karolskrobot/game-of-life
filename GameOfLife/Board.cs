@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace GameOfLife
 {
-    public class BoardProcessor
+    public class Board
     {
         private bool[,] _board;
         private int _noRows;
         private int _noColumns;
 
-        public void SetBoard(bool[,] board)
+        public void Set(bool[,] board)
         {
             _board = board;
             _noRows = board.GetLength(0);
@@ -34,7 +34,7 @@ namespace GameOfLife
             return neighbours;
         }
 
-        public void EvolveBoard()
+        public void Evolve()
         {
             var boardAfter = new bool[_noRows, _noColumns];
 
@@ -64,7 +64,7 @@ namespace GameOfLife
             _board = boardAfter;
         }
 
-        public void PrintBoard()
+        public void Print()
         {
             for (var i = 0; i < _noRows; i++)
             {

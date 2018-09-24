@@ -10,30 +10,21 @@ namespace GameOfLife
 
             var game = new Game();
             game.NewGame();
+
             game.SetOption(Console.ReadLine());
 
-            var boardProcessor = new BoardProcessor();
-
-            try
-            {
-                boardProcessor.SetBoard(game.Option == game.Files.Length
-                    ? new BoardGenerator().GenerateRandom(Constants.BoardRows, Constants.BoardColumns)
-                    : new BoardGenerator().GenerateFromFile(game.Files[game.Option]));
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Error.");
-            }
+            var board = new Board();
+            game.SetBoard(board);
 
             Console.Clear();
-            boardProcessor.PrintBoard();
+            board.Print();
 
             while (true)
             {
                 Thread.Sleep(200);
                 Console.Clear();
-                boardProcessor.EvolveBoard();
-                boardProcessor.PrintBoard();
+                board.Evolve();
+                board.Print();
             }
         }
     }
