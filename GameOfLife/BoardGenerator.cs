@@ -16,7 +16,7 @@ namespace GameOfLife
             // rand must be created here otherwise will return same values in loop
             var rand = new Random();
 
-            BoardIterator.ByTile(_board, tile => _values[rand.Next(0, _values.Length)]);
+            BoardIterator.Iterate(_board, tile => _values[rand.Next(0, _values.Length)]);
 
             return _board;
         }
