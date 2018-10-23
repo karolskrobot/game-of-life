@@ -22,9 +22,10 @@ namespace GameOfLife
             Console.WriteLine("CONWAY'S GAME OF LIFE");
             Console.WriteLine();
             Console.WriteLine("In this game tiles die and come alive with every generation.");
-            Console.WriteLine("A dead tile will come alive if it has exactly 3 alive neighbours.");
-            Console.WriteLine("An alive tile will die of loneliness if it has 0 or 1 alive neighbours.");
-            Console.WriteLine("An alive tile will also die of overcrowding if it has more than 3 alive neighbours.");
+            Console.WriteLine("Dead tile will come alive if it has exactly 3 alive neighbours.");
+            Console.WriteLine("Alive tile will die of loneliness if it has 0 or 1 alive neighbours.");
+            Console.WriteLine("Alive tile will also die of overcrowding if it has more than 3 alive neighbours.");
+            Console.WriteLine("You can read more about the game at https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life");
             Console.WriteLine();
             Console.WriteLine(
                 "Choose a pattern or create a pattern yourself (save it in a .txt file in the patterns folder)");
@@ -35,16 +36,15 @@ namespace GameOfLife
                 Console.WriteLine(i + 1 + ": " + Path.GetFileNameWithoutExtension(_files[i]));
 
             Console.WriteLine(_files.Length + 1 + ": Random");
+            Console.Write("Enter number to load board:");
         }
 
         public void SetOption()
         {
-            Console.Write("Enter number to load board:");
-
             while (true)
             {
-                if (!Int32.TryParse(Console.ReadLine(), out var option) || option < 1 || option > _files.Length)
-                    Console.WriteLine("Wrong input. try again.");
+                if (!Int32.TryParse(Console.ReadLine(), out var option) || option < 1 || option > _files.Length + 1)
+                    Console.WriteLine("Wrong input. Try again.");
                 else
                 {
                     option--;

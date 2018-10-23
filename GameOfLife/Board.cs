@@ -45,7 +45,7 @@ namespace GameOfLife
 
                     switch (_board[i, j])
                     {
-                        // if dead tile has exactly 3 neighbours that are alive it comes to live
+                        // if dead tile has exactly 3 neighbours that are alive it comes to life
                         case false when aliveCounter == 3:
                             boardAfter[i, j] = true;
                             break;
@@ -66,6 +66,8 @@ namespace GameOfLife
 
         public void Print()
         {
+            Console.WriteLine();
+
             for (var i = 0; i < _noRows; i++)
             {
                 for (var j = 0; j < _noColumns; j++)
@@ -73,6 +75,9 @@ namespace GameOfLife
 
                 Console.WriteLine();
             }
+
+            Console.WriteLine();
+            Console.WriteLine("Press ESC to return.");
         }
     }
 }

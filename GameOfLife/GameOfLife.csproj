@@ -93,6 +93,7 @@
     <Content Include="patterns\Glider.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="patterns\Gosper Glider Gun.txt" />
     <Content Include="patterns\Pulsar.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
