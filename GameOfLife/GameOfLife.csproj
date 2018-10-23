@@ -82,13 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="GameOfLife_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="patterns\Blinker.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="patterns\DanceHall.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="patterns\Diehard.txt">

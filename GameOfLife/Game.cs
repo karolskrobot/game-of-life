@@ -11,7 +11,8 @@ namespace GameOfLife
 
         public Game()
         {
-            var folder = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase)).LocalPath;
+            var folder = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase) ??
+                                 throw new InvalidOperationException()).LocalPath;
             _files = Directory.GetFiles(folder + "\\patterns", "*.txt");
         }
 
@@ -34,14 +35,23 @@ namespace GameOfLife
                 Console.WriteLine(i + 1 + ": " + Path.GetFileNameWithoutExtension(_files[i]));
 
             Console.WriteLine(_files.Length + 1 + ": Random");
-            Console.Write("Enter number to load board: ");
         }
 
-        public void SetOption(string input)
+        public void SetOption()
         {
-            int.TryParse(input, out var option);
-            option--;
-            _option = option;
+            Console.Write("Enter number to load board:");
+
+            while (true)
+            {
+                if (!Int32.TryParse(Console.ReadLine(), out var option) || option < 1 || option > _files.Length)
+                    Console.WriteLine("Wrong input. try again.");
+                else
+                {
+                    option--;
+                    _option = option;
+                    return;
+                }
+            }
         }
 
         public void SetBoard(Board board)

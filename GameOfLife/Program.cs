@@ -10,15 +10,13 @@ namespace GameOfLife
 
             var game = new Game();
             game.NewGame();
-
-            game.SetOption(Console.ReadLine());
+            game.SetOption();
 
             var board = new Board();
             game.SetBoard(board);
 
             Console.Clear();
             board.Print();
-
             while (true)
             {
                 Thread.Sleep(200);
