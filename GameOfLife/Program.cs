@@ -1,34 +1,29 @@
-using System;
-using System.Threading;
+using Autofac;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GameOfLife
 {
-    class Program
+    [ExcludeFromCodeCoverage]
+    static class Program
     {
+        private static IContainer Container { get; set; }
+
         static void Main()
-        {
-            var game = new Game();
+        {   
+            var builder = new ContainerBuilder();
+            
+            builder.RegisterType<Game>().As<IGame>();
+            builder.RegisterType<Board>().As<IBoard>();
+            builder.RegisterType<BoardGenerator>().As<IBoardGenerator>();
+            
+            Container = builder.Build();
 
-            while (true)
-            {
-                Console.Clear();
-                game.NewGame();
-                game.SetOption();
+            var application = new Application(
+                new Game(), 
+                new Board(), 
+                new BoardGenerator());
 
-                var board = new Board();
-                game.SetBoard(board);
-
-                do
-                {
-                    while (!Console.KeyAvailable)
-                    {
-                        Console.Clear();
-                        board.Evolve();
-                        board.Print();
-                        Thread.Sleep(150);
-                    }
-                } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
-            }
+            application.Run();
         }
     }
 }

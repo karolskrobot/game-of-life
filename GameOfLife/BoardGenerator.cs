@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GameOfLife
 {
-    public class BoardGenerator
+    public class BoardGenerator : IBoardGenerator
     {
         private readonly bool[] _values = { true, false };
         private bool[,] _board;

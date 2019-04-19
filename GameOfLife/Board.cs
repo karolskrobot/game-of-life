@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GameOfLife
 {
-    public class Board
+    public class Board : IBoard
     {
         private bool[,] _board;
         private int _noRows;
@@ -22,14 +22,24 @@ namespace GameOfLife
             var neighbours = new List<bool>();
 
             for (var i = boardTileY - 1; i <= boardTileY + 1; i++)
+            {
                 for (var j = boardTileX - 1; j <= boardTileX + 1; j++)
+                {
                     if (i == boardTileY && j == boardTileX)
+                    {
                         continue;
+                    }
                     //if neighbour out of bounds add as dead
                     else if (i >= _noRows || i < 0 || j >= _noColumns || j < 0)
+                    {
                         neighbours.Add(false);
+                    }
                     else
+                    {
                         neighbours.Add(_board[i, j]);
+                    }
+                }
+            }
 
             return neighbours;
         }
