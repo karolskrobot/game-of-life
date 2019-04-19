@@ -3,7 +3,7 @@
     public interface IGame
     {
         void NewGame();
-        void SetOption();
+        bool SetOption();
         void SetBoard(IBoard board, IBoardGenerator boardGenerator);
     }
 }

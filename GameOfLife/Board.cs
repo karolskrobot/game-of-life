@@ -9,6 +9,12 @@ namespace GameOfLife
         private bool[,] _board;
         private int _noRows;
         private int _noColumns;
+        private IConsole _console;
+
+        public Board(IConsole console)
+        {
+            _console = console;
+        }
 
         public void Set(bool[,] board)
         {
@@ -76,7 +82,7 @@ namespace GameOfLife
 
         public void Print()
         {
-            Console.WriteLine();
+            _console.WriteLine(string.Empty);
 
             for (var i = 0; i < _noRows; i++)
             {
@@ -86,8 +92,8 @@ namespace GameOfLife
                 Console.WriteLine();
             }
 
-            Console.WriteLine();
-            Console.WriteLine("Press ESC to return.");
+            _console.WriteLine(string.Empty);
+            _console.WriteLine("Press ESC to return.");
         }
     }
 }

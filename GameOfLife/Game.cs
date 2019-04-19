@@ -9,11 +9,16 @@ namespace GameOfLife
 {
     public class Game : IGame
     {
+        private const string ExitCharacter = "X";
+
         private string[] _files;
         private int _option;
+        private IConsole _console;
 
-        public Game()
+        public Game(IConsole console)
         {
+            _console = console;
+
             var folder = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
                                  ?? throw new InvalidOperationException()).LocalPath;
 
@@ -28,23 +33,32 @@ namespace GameOfLife
             IntroText();
 
             for (var i = 0; i < _files.Length; i++)
-                Console.WriteLine(i + 1 + ": " + Path.GetFileNameWithoutExtension(_files[i]));
+                _console.WriteLine(i + 1 + ": " + Path.GetFileNameWithoutExtension(_files[i]));
 
-            Console.WriteLine(_files.Length + 1 + ": Random");
-            Console.Write("Enter number to load board:");
+            _console.WriteLine(_files.Length + 1 + ": Random");            
+            _console.WriteLine($"Enter number to load board or {ExitCharacter} for Exit:");
         }
 
-        public void SetOption()
-        {
+        public bool SetOption()
+        {            
             while (true)
             {
-                if (!Int32.TryParse(Console.ReadLine(), out var option) || option < 1 || option > _files.Length + 1)
-                    Console.WriteLine("Wrong input. Try again.");
+                var input = _console.ReadLine();
+
+                if (string.Equals(input, ExitCharacter, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return false;
+                }
+
+                if (!Int32.TryParse(input, out var option) || option < 1 || option > _files.Length + 1)
+                {
+                    _console.WriteLine("Wrong input. Try again.");
+                }
                 else
                 {
                     option--;
                     _option = option;
-                    return;
+                    return true;
                 }
             }
         }
@@ -58,19 +72,19 @@ namespace GameOfLife
 
         private void IntroText()
         {
-            Console.WriteLine();
-            Console.WriteLine("CONWAY'S GAME OF LIFE");
-            Console.WriteLine();
-            Console.WriteLine("In this game tiles die and come alive with every generation.");
-            Console.WriteLine("Dead tile will come alive if it has exactly 3 alive neighbours.");
-            Console.WriteLine("Alive tile will die of loneliness if it has 0 or 1 alive neighbours.");
-            Console.WriteLine("Alive tile will also die of overcrowding if it has more than 3 alive neighbours.");
-            Console.WriteLine("You can read more about the game at https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life");
-            Console.WriteLine();
-            Console.WriteLine(
+            _console.WriteLine(string.Empty);
+            _console.WriteLine("CONWAY'S GAME OF LIFE");
+            _console.WriteLine(string.Empty);
+            _console.WriteLine("In this game tiles die and come alive with every generation.");
+            _console.WriteLine("Dead tile will come alive if it has exactly 3 alive neighbours.");
+            _console.WriteLine("Alive tile will die of loneliness if it has 0 or 1 alive neighbours.");
+            _console.WriteLine("Alive tile will also die of overcrowding if it has more than 3 alive neighbours.");
+            _console.WriteLine("You can read more about the game at https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life");
+            _console.WriteLine(string.Empty);
+            _console.WriteLine(
                 "Choose a pattern or create a pattern yourself (save it in a .txt file in the patterns folder)");
-            Console.WriteLine($"Use \"{Constants.AliveChar}\" for alive tiles and \"{Constants.DeadChar}\" for dead tiles.");
-            Console.WriteLine();
+            _console.WriteLine($"Use \"{Constants.AliveChar}\" for alive tiles and \"{Constants.DeadChar}\" for dead tiles.");
+            _console.WriteLine(string.Empty);
         }
     }
 }
