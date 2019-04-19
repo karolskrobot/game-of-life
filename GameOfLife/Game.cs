@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -30,12 +29,13 @@ namespace GameOfLife
 
         public void NewGame()
         {
+            _console.Clear();
             IntroText();
 
             for (var i = 0; i < _files.Length; i++)
                 _console.WriteLine(i + 1 + ": " + Path.GetFileNameWithoutExtension(_files[i]));
 
-            _console.WriteLine(_files.Length + 1 + ": Random");            
+            _console.WriteLine(_files.Length + 1 + ": Random");
             _console.WriteLine($"Enter number to load board or {ExitCharacter} for Exit:");
         }
 
@@ -71,7 +71,7 @@ namespace GameOfLife
         }
 
         private void IntroText()
-        {
+        {            
             _console.WriteLine(string.Empty);
             _console.WriteLine("CONWAY'S GAME OF LIFE");
             _console.WriteLine(string.Empty);

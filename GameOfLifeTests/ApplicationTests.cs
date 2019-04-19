@@ -25,7 +25,7 @@ namespace GameOfLifeTests
         }
 
         [Test]
-        public void Run_GameOptionTrueThenFalse_BoardSetAndRendered()
+        public void Run_GameOptionTrue_NewGameTwiceAndBoardSetAndRendered()
         {
             //Arrange
             _fakeConsole.SetupSequence(c => c.ReadKey(It.IsAny<bool>()))
@@ -43,19 +43,20 @@ namespace GameOfLifeTests
             _application.Run();
 
             //Assert                        
+            _fakeGame.Verify(g => g.NewGame(), Times.Exactly(2));
             _fakeGame.Verify(g => g.SetBoard(_fakeBoard.Object, _fakeBoardGenerator.Object), Times.Once);
             _fakeBoard.Verify(b => b.Evolve(), Times.Once);
             _fakeBoard.Verify(b => b.Print(), Times.Once);
         }
 
         [Test]
-        public void Run_GameOptionFalse_NewGameOnceAndDoNotSetOrRenderBoard()
+        public void Run_GameOptionFalse_NewGameOnceAndBoardNotSetOrRendered()
         {
             //Arrange
-            _fakeGame.SetupSequence(g => g.SetOption())            
+            _fakeGame.SetupSequence(g => g.SetOption())
                 .Returns(false);
 
-            //Act
+            //Act            
             _application.Run();
 
             //Assert

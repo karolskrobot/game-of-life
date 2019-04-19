@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace GameOfLife
@@ -55,6 +54,7 @@ namespace GameOfLife
             var boardAfter = new bool[_noRows, _noColumns];
 
             for (var i = 0; i < _noRows; i++)
+            {
                 for (var j = 0; j < _noColumns; j++)
                 {
                     var aliveCounter = GetNeighbours(i, j).Count(n => n);
@@ -76,20 +76,28 @@ namespace GameOfLife
                             break;
                     }
                 }
+            }
 
-            _board = boardAfter;
+            for (var i = 0; i < _noRows; i++)
+            {
+                for (var j = 0; j < _noColumns; j++)
+                {
+                    _board[i, j] = boardAfter[i, j];
+                }
+            }            
         }
 
         public void Print()
         {
+            _console.Clear();
             _console.WriteLine(string.Empty);
 
             for (var i = 0; i < _noRows; i++)
             {
                 for (var j = 0; j < _noColumns; j++)
-                    Console.Write(_board[i, j] ? Constants.AliveChar : Constants.DeadChar);
+                    _console.Write(_board[i, j] ? Constants.AliveChar : Constants.DeadChar);
 
-                Console.WriteLine();
+                _console.WriteLine(string.Empty);
             }
 
             _console.WriteLine(string.Empty);

@@ -9,7 +9,6 @@ namespace GameOfLife
         private readonly IBoard _board;
         private readonly IBoardGenerator _boardGenerator;
         private readonly IConsole _console;
-        private bool _exit;
 
         public Application(IGame game, IBoard board, IBoardGenerator boardGenerator, IConsole console)
         {
@@ -22,42 +21,24 @@ namespace GameOfLife
         {
             do
             {
-                _console.Clear();
                 _game.NewGame();
-                CheckOption();
-
-                if (_exit)
+                
+                if (!_game.SetOption())
                     break;
+                
+                _game.SetBoard(_board, _boardGenerator);
 
                 do
                 {
                     while (!_console.KeyAvailable)
                     {
-                        RenderBoard();
+                        _board.Evolve();
+                        _board.Print();
+                        Thread.Sleep(150);
                     }
                 } while (_console.ReadKey(true) != ConsoleKey.Escape);
 
             } while (true);
-        }
-
-        private void CheckOption()
-        {
-            if (_game.SetOption())
-            {
-                _game.SetBoard(_board, _boardGenerator);
-            }
-            else
-            {
-                _exit = true;
-            }
-        }
-
-        private void RenderBoard()
-        {
-            _console.Clear();
-            _board.Evolve();
-            _board.Print();
-            Thread.Sleep(150);
-        }
+        }        
     }
 }

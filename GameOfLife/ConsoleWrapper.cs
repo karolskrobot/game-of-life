@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GameOfLife
 {
+    [ExcludeFromCodeCoverage]
     public class ConsoleWrapper : IConsole
     {
         public bool KeyAvailable => Console.KeyAvailable;
