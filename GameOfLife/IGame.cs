@@ -1,9 +1,11 @@
-﻿namespace GameOfLife
+﻿using GameOfLife.Wrappers;
+
+namespace GameOfLife
 {
     public interface IGame
     {
         void NewGame();
         bool SetOption();
-        void SetBoard(IBoard board, IBoardGenerator boardGenerator);
+        void NewBoard(IBoardProcessor boardProcessor, IBoardGenerator boardGenerator, IFile fileWrapper);
     }
 }

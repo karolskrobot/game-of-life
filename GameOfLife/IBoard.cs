@@ -2,8 +2,8 @@
 {
     public interface IBoard
     {
-        void Set(bool[,] board);
-        void Evolve();
-        void Print();
+        bool[,] BoardArray { get; set; }
+        int LengthX { get; }
+        int LengthY { get; }
     }
 }

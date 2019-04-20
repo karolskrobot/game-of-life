@@ -99,16 +99,20 @@
     <Compile Include="Application.cs" />
     <Compile Include="BoardGenerator.cs" />
     <Compile Include="BoardIterator.cs" />
-    <Compile Include="ConsoleWrapper.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="Board.cs" />
+    <Compile Include="Wrappers\ConsoleWrapper.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="BoardProcessor.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="IBoard.cs" />
+    <Compile Include="IBoardProcessor.cs" />
     <Compile Include="IBoardGenerator.cs" />
-    <Compile Include="IConsole.cs" />
     <Compile Include="IGame.cs" />
+    <Compile Include="Wrappers\FileWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wrappers\IConsole.cs" />
+    <Compile Include="Wrappers\IFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -127,11 +131,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="patterns\Blinker.txt" />
-    <Content Include="patterns\Diehard.txt" />
-    <Content Include="patterns\Glider.txt" />
-    <Content Include="patterns\Gosper Glider Gun.txt" />
-    <Content Include="patterns\Pulsar.txt" />
+    <Content Include="Patterns\Blinker.txt" />
+    <Content Include="Patterns\Diehard.txt" />
+    <Content Include="Patterns\Glider.txt" />
+    <Content Include="Patterns\Gosper Glider Gun.txt" />
+    <Content Include="Patterns\Pulsar.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

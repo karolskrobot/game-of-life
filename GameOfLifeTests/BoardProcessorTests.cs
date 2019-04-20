@@ -1,11 +1,12 @@
 ﻿using GameOfLife;
+using GameOfLife.Wrappers;
 using Moq;
 using NUnit.Framework;
 
 namespace GameOfLifeTests
 {
     [TestFixture]
-    public class BoardTests
+    public class BoardProcessorTests
     {
         private Mock<IConsole> _fakeConsole;
 
@@ -19,8 +20,7 @@ namespace GameOfLifeTests
         public void Evolve_Once_ReturnCorrectOutput()
         {
             //Arrange
-            var board = new Board(_fakeConsole.Object);
-
+            var boardProcessor = new BoardProcessor(_fakeConsole.Object);
             var boardArray = new[,] {
                 {false, false, false, false, false},
                 {false, false, false, false, false},
@@ -28,29 +28,33 @@ namespace GameOfLifeTests
                 {false, false, false, false, false},
                 {false, false, false, false, false}
             };
+            var board = new Board
+            {
+                BoardArray = boardArray
+            };
+            boardProcessor.Board = board;
 
-            //Act
-            board.Set(boardArray);
-            board.Evolve();
+            //Act            
+            boardProcessor.EvolveBoard();
             
             //Assert
-            Assert.That(boardArray[1, 1].Equals(false));
-            Assert.That(boardArray[1, 2].Equals(true));
-            Assert.That(boardArray[1, 3].Equals(false));
-            Assert.That(boardArray[2, 1].Equals(false));
-            Assert.That(boardArray[2, 2].Equals(true));
-            Assert.That(boardArray[2, 3].Equals(false));
-            Assert.That(boardArray[3, 1].Equals(false));
-            Assert.That(boardArray[3, 2].Equals(true));
-            Assert.That(boardArray[3, 3].Equals(false));            
+            Assert.That(board.BoardArray[1, 1].Equals(false));
+            Assert.That(board.BoardArray[1, 2].Equals(true));
+            Assert.That(board.BoardArray[1, 3].Equals(false));
+            Assert.That(board.BoardArray[2, 1].Equals(false));
+            Assert.That(board.BoardArray[2, 2].Equals(true));
+            Assert.That(board.BoardArray[2, 3].Equals(false));
+            Assert.That(board.BoardArray[3, 1].Equals(false));
+            Assert.That(board.BoardArray[3, 2].Equals(true));
+            Assert.That(board.BoardArray[3, 3].Equals(false));            
         }
 
         [Test]
         public void Evolve_Twice_ReturnCorrectOutput()
         {          
             //Arrange
-            var board = new Board(_fakeConsole.Object);
-            
+
+            var boardProcessor = new BoardProcessor(_fakeConsole.Object);
             var boardArray = new[,] {
                 {false, false, false, false, false},
                 {false, false, false, false, false},
@@ -58,30 +62,33 @@ namespace GameOfLifeTests
                 {false, false, false, false, false},
                 {false, false, false, false, false}
             };
+            var board = new Board()
+            {
+                BoardArray = boardArray
+            };
+            boardProcessor.Board = board;
             
             //Act
-            board.Set(boardArray);
-            board.Evolve();
-            board.Evolve();
+            boardProcessor.EvolveBoard();
+            boardProcessor.EvolveBoard();
             
             //Assert
-            Assert.That(boardArray[1, 1].Equals(false));
-            Assert.That(boardArray[1, 2].Equals(false));
-            Assert.That(boardArray[1, 3].Equals(false));
-            Assert.That(boardArray[2, 1].Equals(true));
-            Assert.That(boardArray[2, 2].Equals(true));
-            Assert.That(boardArray[2, 3].Equals(true));
-            Assert.That(boardArray[3, 1].Equals(false));
-            Assert.That(boardArray[3, 2].Equals(false));
-            Assert.That(boardArray[3, 3].Equals(false));
+            Assert.That(board.BoardArray[1, 1].Equals(false));
+            Assert.That(board.BoardArray[1, 2].Equals(false));
+            Assert.That(board.BoardArray[1, 3].Equals(false));
+            Assert.That(board.BoardArray[2, 1].Equals(true));
+            Assert.That(board.BoardArray[2, 2].Equals(true));
+            Assert.That(board.BoardArray[2, 3].Equals(true));
+            Assert.That(board.BoardArray[3, 1].Equals(false));
+            Assert.That(board.BoardArray[3, 2].Equals(false));
+            Assert.That(board.BoardArray[3, 3].Equals(false));
         }
 
         [Test]
         public void Print_GivenBoolArray_PrintCorrectNumberOfCharacters()
         {
             //Arrange
-            var board = new Board(_fakeConsole.Object);
-
+            var boardProcessor = new BoardProcessor(_fakeConsole.Object);
             var boardArray = new[,] {
                 {false, false, false, false, false},
                 {false, false, false, false, false},
@@ -89,10 +96,14 @@ namespace GameOfLifeTests
                 {false, false, false, false, false},
                 {false, false, false, false, false}
             };
+            var board = new Board()
+            {
+                BoardArray = boardArray
+            };
 
             //Act
-            board.Set(boardArray);
-            board.Print();
+            boardProcessor.Board = board;
+            boardProcessor.PrintBoard();
 
             //Assert
             _fakeConsole.Verify(c => c.Clear(), Times.Once);

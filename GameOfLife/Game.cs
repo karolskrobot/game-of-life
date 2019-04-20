@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameOfLife.Wrappers;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -36,7 +38,7 @@ namespace GameOfLife
                 _console.WriteLine(i + 1 + ": " + Path.GetFileNameWithoutExtension(_files[i]));
 
             _console.WriteLine(_files.Length + 1 + ": Random");
-            _console.WriteLine($"Enter number to load board or {ExitCharacter} for Exit:");
+            _console.WriteLine($"Enter number to load boardProcessor or {ExitCharacter} for Exit:");
         }
 
         public bool SetOption()
@@ -63,13 +65,14 @@ namespace GameOfLife
             }
         }
 
-        public void SetBoard(IBoard board, IBoardGenerator boardGenerator)
+        public void NewBoard(IBoardProcessor boardProcessor, IBoardGenerator boardGenerator, IFile fileWrapper)
         {
-            board.Set(_option == _files.Length
+            boardProcessor.Board = _option == _files.Length
                 ? boardGenerator.GenerateRandom(Constants.BoardRows, Constants.BoardColumns)
-                : boardGenerator.GenerateFromFile(_files[_option]));
+                : boardGenerator.GenerateFromFile(_files[_option], fileWrapper);
         }
 
+        [ExcludeFromCodeCoverage]
         private void IntroText()
         {            
             _console.WriteLine(string.Empty);

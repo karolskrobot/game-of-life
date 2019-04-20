@@ -1,30 +1,37 @@
-﻿using System;
-using System.IO;
+﻿using GameOfLife.Wrappers;
+using System;
 using System.Linq;
 
 namespace GameOfLife
 {
     public class BoardGenerator : IBoardGenerator
     {
+        private readonly IBoard _board;
+        private bool[,] _boardArray;
         private readonly bool[] _values = { true, false };
-        private bool[,] _board;
-
-        public bool[,] GenerateRandom(int noRows, int noColumns)
+        
+        public BoardGenerator(IBoard board)
         {
-            _board = new bool[noRows, noColumns];
+            _board = board;
+        }
+     
+        public IBoard GenerateRandom(int noRows, int noColumns)
+        {
+            _boardArray = new bool[noRows, noColumns];
 
             // rand must be created here otherwise will return same values in loop
             var rand = new Random();
 
-            BoardIterator.Iterate(_board, tile => _values[rand.Next(0, _values.Length)]);
+            BoardIterator.Iterate(_boardArray, tile => _values[rand.Next(0, _values.Length)]);
 
+            _board.BoardArray = _boardArray;
             return _board;
         }
 
-        public bool[,] GenerateFromFile(string path)
+        public IBoard GenerateFromFile(string path, IFile file)
         {
-            var rows = File.ReadAllText(path).Split('\n');
-            _board = new bool[rows.Length, rows.Select(row => row.Length).ToList().Max()];
+            var rows = file.ReadAllText(path).Split('\n');
+            _boardArray = new bool[rows.Length, rows.Select(row => row.Length).ToList().Max()];
 
             var i = 0;
             foreach (var row in rows)
@@ -33,15 +40,16 @@ namespace GameOfLife
                     switch (row[j].ToString())
                     {
                         case Constants.DeadChar:
-                            _board[i, j] = false;
+                            _boardArray[i, j] = false;
                             break;
                         case Constants.AliveChar:
-                            _board[i, j] = true;
+                            _boardArray[i, j] = true;
                             break;
                     }
                 i++;
             }
 
+            _board.BoardArray = _boardArray;
             return _board;
         }
     }

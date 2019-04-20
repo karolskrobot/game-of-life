@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameOfLife
+namespace GameOfLife.Wrappers
 {
     public interface IConsole
     {

@@ -1,4 +1,5 @@
 using Autofac;
+using GameOfLife.Wrappers;
 using System.Diagnostics.CodeAnalysis;
 
 namespace GameOfLife
@@ -13,7 +14,7 @@ namespace GameOfLife
             var builder = new ContainerBuilder();
 
             builder.RegisterType<Game>().As<IGame>();
-            builder.RegisterType<Board>().As<IBoard>();
+            builder.RegisterType<BoardProcessor>().As<IBoardProcessor>();
             builder.RegisterType<BoardGenerator>().As<IBoardGenerator>();
 
             Container = builder.Build();
@@ -22,9 +23,10 @@ namespace GameOfLife
 
             var application = new Application(
                 new Game(console),
-                new Board(console),
-                new BoardGenerator(),
-                console
+                new BoardProcessor(console),
+                new BoardGenerator(new Board()),
+                console, 
+                new FileWrapper()
                 );
 
             application.Run();

@@ -1,4 +1,5 @@
 ﻿using GameOfLife;
+using GameOfLife.Wrappers;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -9,19 +10,27 @@ namespace GameOfLifeTests
     public class ApplicationTests
     {
         private Mock<IGame> _fakeGame;
-        private Mock<IBoard> _fakeBoard;
+        private Mock<IBoardProcessor> _fakeBoardProcessor;
         private Mock<IBoardGenerator> _fakeBoardGenerator;
         private Mock<IConsole> _fakeConsole;
         private Application _application;
+        private Mock<IFile> _fakeFileWrapper;
 
         [SetUp]
         public void SetUp()
         {
             _fakeGame = new Mock<IGame>();
-            _fakeBoard = new Mock<IBoard>();
+            _fakeBoardProcessor = new Mock<IBoardProcessor>();
             _fakeBoardGenerator = new Mock<IBoardGenerator>();
             _fakeConsole = new Mock<IConsole>();
-            _application = new Application(_fakeGame.Object, _fakeBoard.Object, _fakeBoardGenerator.Object, _fakeConsole.Object);
+            _fakeFileWrapper = new Mock<IFile>();
+            _application = new Application(
+                _fakeGame.Object, 
+                _fakeBoardProcessor.Object, 
+                _fakeBoardGenerator.Object, 
+                _fakeConsole.Object,
+                _fakeFileWrapper.Object
+                );
         }
 
         [Test]
@@ -44,9 +53,9 @@ namespace GameOfLifeTests
 
             //Assert                        
             _fakeGame.Verify(g => g.NewGame(), Times.Exactly(2));
-            _fakeGame.Verify(g => g.SetBoard(_fakeBoard.Object, _fakeBoardGenerator.Object), Times.Once);
-            _fakeBoard.Verify(b => b.Evolve(), Times.Once);
-            _fakeBoard.Verify(b => b.Print(), Times.Once);
+            _fakeGame.Verify(g => g.NewBoard(_fakeBoardProcessor.Object, _fakeBoardGenerator.Object, _fakeFileWrapper.Object), Times.Once);
+            _fakeBoardProcessor.Verify(b => b.EvolveBoard(), Times.Once);
+            _fakeBoardProcessor.Verify(b => b.PrintBoard(), Times.Once);
         }
 
         [Test]
@@ -61,9 +70,9 @@ namespace GameOfLifeTests
 
             //Assert
             _fakeGame.Verify(g => g.NewGame(), Times.Once);
-            _fakeGame.Verify(g => g.SetBoard(_fakeBoard.Object, _fakeBoardGenerator.Object), Times.Never);
-            _fakeBoard.Verify(b => b.Evolve(), Times.Never);
-            _fakeBoard.Verify(b => b.Print(), Times.Never);
+            _fakeGame.Verify(g => g.NewBoard(_fakeBoardProcessor.Object, _fakeBoardGenerator.Object, _fakeFileWrapper.Object), Times.Never);
+            _fakeBoardProcessor.Verify(b => b.EvolveBoard(), Times.Never);
+            _fakeBoardProcessor.Verify(b => b.PrintBoard(), Times.Never);
         }
     }
 }

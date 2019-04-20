@@ -70,7 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationTests.cs" />
-    <Compile Include="BoardTests.cs" />
+    <Compile Include="BoardGeneratorTests.cs" />
+    <Compile Include="BoardProcessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

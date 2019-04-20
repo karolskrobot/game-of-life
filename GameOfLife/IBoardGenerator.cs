@@ -1,8 +1,10 @@
-﻿namespace GameOfLife
+﻿using GameOfLife.Wrappers;
+
+namespace GameOfLife
 {
     public interface IBoardGenerator
     {
-        bool[,] GenerateRandom(int noRows, int noColumns);
-        bool[,] GenerateFromFile(string path);
+        IBoard GenerateRandom(int noRows, int noColumns);
+        IBoard GenerateFromFile(string path, IFile file);
     }
 }
