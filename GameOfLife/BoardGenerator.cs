@@ -28,9 +28,10 @@ namespace GameOfLife
             return _board;
         }
 
-        public IBoard GenerateFromFile(string path, IFile file)
+        public IBoard GenerateFromFile(string path, IFile fileWrapper)
         {
-            var rows = file.ReadAllText(path).Split('\n');
+            var rows = fileWrapper.ReadAllText(path).Split('\n');
+
             _boardArray = new bool[rows.Length, rows.Select(row => row.Length).ToList().Max()];
 
             var i = 0;

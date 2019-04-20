@@ -8,29 +8,14 @@ namespace GameOfLife.Wrappers
     {
         public bool KeyAvailable => Console.KeyAvailable;
 
-        public void Clear()
-        {
-            Console.Clear();
-        }
+        public void Clear() => Console.Clear();
 
-        public void WriteLine(string message)
-        {
-            Console.WriteLine(message);
-        }
+        public void WriteLine(string message) => Console.WriteLine(message);
 
-        public void Write(string message)
-        {
-            Console.Write(message);
-        }
+        public void Write(string message) => Console.Write(message);
 
-        public string ReadLine()
-        {
-            return Console.ReadLine();
-        }
+        public string ReadLine() => Console.ReadLine();
 
-        public ConsoleKey ReadKey(bool intercept)
-        {
-            return Console.ReadKey(intercept).Key;
-        }       
+        public ConsoleKey ReadKey(bool intercept) => Console.ReadKey(intercept).Key;
     }
 }

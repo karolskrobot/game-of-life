@@ -1,9 +1,7 @@
 ﻿using GameOfLife.Wrappers;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace GameOfLife
@@ -16,17 +14,14 @@ namespace GameOfLife
         private int _option;
         private IConsole _console;
 
-        public Game(IConsole console)
+        public Game(IConsole console, IDirectory directoryWrapper)
         {
             _console = console;
 
             var folder = new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)
                                  ?? throw new InvalidOperationException()).LocalPath;
 
-            _files = Directory
-                .GetFiles($"{folder}\\patterns", "*.txt")
-                .Select(filename => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(filename))
-                .ToArray();
+            _files = directoryWrapper.GetFiles($"{folder}\\patterns", "*.txt");
         }
 
         public void NewGame()
@@ -35,7 +30,8 @@ namespace GameOfLife
             IntroText();
 
             for (var i = 0; i < _files.Length; i++)
-                _console.WriteLine(i + 1 + ": " + Path.GetFileNameWithoutExtension(_files[i]));
+                _console.WriteLine(i + 1 + ": " + 
+                                   Path.GetFileNameWithoutExtension(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_files[i])));
 
             _console.WriteLine(_files.Length + 1 + ": Random");
             _console.WriteLine($"Enter number to load boardProcessor or {ExitCharacter} for Exit:");
@@ -71,8 +67,7 @@ namespace GameOfLife
                 ? boardGenerator.GenerateRandom(Constants.BoardRows, Constants.BoardColumns)
                 : boardGenerator.GenerateFromFile(_files[_option], fileWrapper);
         }
-
-        [ExcludeFromCodeCoverage]
+        
         private void IntroText()
         {            
             _console.WriteLine(string.Empty);

@@ -22,7 +22,7 @@ namespace GameOfLife
             var console = new ConsoleWrapper();
 
             var application = new Application(
-                new Game(console),
+                new Game(console, new DirectoryWrapper()),
                 new BoardProcessor(console),
                 new BoardGenerator(new Board()),
                 console, 
