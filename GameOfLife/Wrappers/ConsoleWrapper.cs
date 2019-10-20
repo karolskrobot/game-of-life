@@ -6,6 +6,10 @@ namespace GameOfLife.Wrappers
     [ExcludeFromCodeCoverage]
     public class ConsoleWrapper : IConsole
     {
+        public ConsoleWrapper()
+        {
+        }
+
         public bool KeyAvailable => Console.KeyAvailable;
 
         public void Clear() => Console.Clear();
@@ -14,8 +18,12 @@ namespace GameOfLife.Wrappers
 
         public void Write(string message) => Console.Write(message);
 
-        public string ReadLine() => Console.ReadLine();
-
         public ConsoleKey ReadKey(bool intercept) => Console.ReadKey(intercept).Key;
+
+        public ConsoleKeyInfo GetConsoleKeyInfoFromReadKey() => Console.ReadKey(true);
+
+        public ConsoleKey GetConsoleKey(ConsoleKeyInfo consoleKeyInfo) => consoleKeyInfo.Key;
+
+        public string GetKeyCharToString(ConsoleKeyInfo consoleKeyInfo) => consoleKeyInfo.KeyChar.ToString();
     }
 }

@@ -9,28 +9,32 @@ namespace GameOfLifeTests
     [TestFixture]
     public class ApplicationTests
     {
-        private Mock<IGame> _fakeGame;
-        private Mock<IBoardProcessor> _fakeBoardProcessor;
-        private Mock<IBoardGenerator> _fakeBoardGenerator;
         private Mock<IConsole> _fakeConsole;
-        private Application _application;
         private Mock<IFile> _fakeFileWrapper;
+        private Mock<IGame> _fakeGame;
+        private Mock<IBoardEvolver> _fakeBoardEvolver;
+        private Mock<IBoardGenerator> _fakeBoardGenerator;
+        private Mock<IBoardPrinter> _fakeBoardPrinter;
+        private Application _application;
 
         [SetUp]
         public void SetUp()
         {
             _fakeGame = new Mock<IGame>();
-            _fakeBoardProcessor = new Mock<IBoardProcessor>();
+            _fakeBoardEvolver = new Mock<IBoardEvolver>();
             _fakeBoardGenerator = new Mock<IBoardGenerator>();
             _fakeConsole = new Mock<IConsole>();
             _fakeFileWrapper = new Mock<IFile>();
+            _fakeBoardPrinter = new Mock<IBoardPrinter>();
+
             _application = new Application(
-                _fakeGame.Object, 
-                _fakeBoardProcessor.Object, 
-                _fakeBoardGenerator.Object, 
                 _fakeConsole.Object,
-                _fakeFileWrapper.Object
-                );
+                _fakeFileWrapper.Object,
+                _fakeGame.Object,
+                _fakeBoardEvolver.Object,
+                _fakeBoardGenerator.Object,
+                _fakeBoardPrinter.Object
+            );
         }
 
         [Test]
@@ -44,7 +48,7 @@ namespace GameOfLifeTests
                 .Returns(false)
                 .Returns(true);
 
-            _fakeGame.SetupSequence(g => g.SetOption())
+            _fakeGame.SetupSequence(g => g.LoopReadingOptionKeyPressedReturnFalseWhenExit())
                 .Returns(true)
                 .Returns(false);
 
@@ -52,27 +56,27 @@ namespace GameOfLifeTests
             _application.Run();
 
             //Assert                        
-            _fakeGame.Verify(g => g.NewGame(), Times.Exactly(2));
-            _fakeGame.Verify(g => g.NewBoard(_fakeBoardProcessor.Object, _fakeBoardGenerator.Object, _fakeFileWrapper.Object), Times.Once);
-            _fakeBoardProcessor.Verify(b => b.EvolveBoard(), Times.Once);
-            _fakeBoardProcessor.Verify(b => b.PrintBoard(), Times.Once);
+            _fakeGame.Verify(g => g.PrintNewGameScreen(), Times.Exactly(2));
+            _fakeGame.Verify(g => g.GenerateNewBoard(_fakeBoardGenerator.Object, _fakeFileWrapper.Object), Times.Once);
+            _fakeBoardEvolver.Verify(b => b.EvolveBoard(It.IsAny<IBoard>()), Times.Once);
+            _fakeBoardPrinter.Verify(b => b.PrintBoard(It.IsAny<IBoard>()), Times.Exactly(2));
         }
 
         [Test]
         public void Run_GameOptionFalse_NewGameOnceAndBoardNotSetOrRendered()
         {
             //Arrange
-            _fakeGame.SetupSequence(g => g.SetOption())
+            _fakeGame.SetupSequence(g => g.LoopReadingOptionKeyPressedReturnFalseWhenExit())
                 .Returns(false);
 
             //Act            
             _application.Run();
 
             //Assert
-            _fakeGame.Verify(g => g.NewGame(), Times.Once);
-            _fakeGame.Verify(g => g.NewBoard(_fakeBoardProcessor.Object, _fakeBoardGenerator.Object, _fakeFileWrapper.Object), Times.Never);
-            _fakeBoardProcessor.Verify(b => b.EvolveBoard(), Times.Never);
-            _fakeBoardProcessor.Verify(b => b.PrintBoard(), Times.Never);
+            _fakeGame.Verify(g => g.PrintNewGameScreen(), Times.Once);
+            _fakeGame.Verify(g => g.GenerateNewBoard(_fakeBoardGenerator.Object, _fakeFileWrapper.Object), Times.Never);
+            _fakeBoardEvolver.Verify(b => b.EvolveBoard(It.IsAny<IBoard>()), Times.Never);
+            _fakeBoardPrinter.Verify(b => b.PrintBoard(It.IsAny<IBoard>()), Times.Never);
         }
     }
 }

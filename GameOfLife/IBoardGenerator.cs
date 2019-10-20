@@ -1,10 +1,9 @@
-﻿using GameOfLife.Wrappers;
+﻿using GameOfLife.BoardGenerationStrategies;
 
 namespace GameOfLife
 {
     public interface IBoardGenerator
     {
-        IBoard GenerateRandom(int noRows, int noColumns);
-        IBoard GenerateFromFile(string path, IFile file);
+        IBoard GenerateBoard(IBoardGenerationStrategy boardGenerationStrategy);
     }
 }

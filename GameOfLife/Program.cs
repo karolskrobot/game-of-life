@@ -13,23 +13,21 @@ namespace GameOfLife
         {
             var builder = new ContainerBuilder();
 
+            builder.RegisterType<ConsoleWrapper>().As<IConsole>();
+            builder.RegisterType<FileWrapper>().As<IFile>();
+            builder.RegisterType<DirectoryWrapper>().As<IDirectory>();
             builder.RegisterType<Game>().As<IGame>();
-            builder.RegisterType<BoardProcessor>().As<IBoardProcessor>();
+            builder.RegisterType<BoardEvolver>().As<IBoardEvolver>();
             builder.RegisterType<BoardGenerator>().As<IBoardGenerator>();
+            builder.RegisterType<BoardPrinter>().As<IBoardPrinter>();
+            builder.RegisterType<Application>();
 
             Container = builder.Build();
 
-            var console = new ConsoleWrapper();
-
-            var application = new Application(
-                new Game(console, new DirectoryWrapper()),
-                new BoardProcessor(console),
-                new BoardGenerator(new Board()),
-                console, 
-                new FileWrapper()
-                );
-
-            application.Run();
+            using (var scope = Container.BeginLifetimeScope())
+            {
+                scope.Resolve<Application>().Run();
+            }
         }
     }
 }

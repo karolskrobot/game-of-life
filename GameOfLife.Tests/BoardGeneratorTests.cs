@@ -1,4 +1,5 @@
 ﻿using GameOfLife;
+using GameOfLife.BoardGenerationStrategies;
 using GameOfLife.Wrappers;
 using Moq;
 using NUnit.Framework;
@@ -20,14 +21,14 @@ namespace GameOfLifeTests
         public void GenerateRandom_MethodCalled_BoardArrayPopulatedWithTrueOrFalseValues()
         {
             //Arrange
-            var board = new Board();
-            var generator = new BoardGenerator(board);
+            var generator = new BoardGenerator();
+            var strategy = new BoardGenerationStrategyRandom(1, 1);
 
             //Act
-            generator.GenerateRandom(1, 1);
+            var board = generator.GenerateBoard(strategy);
 
             //Assert
-            Assert.That(board.BoardArray[0,0].Equals(true) || board.BoardArray[0,0].Equals(false));
+            Assert.That(board.BoardArray[0, 0].Equals(true) || board.BoardArray[0, 0].Equals(false));
         }
 
         [Test]
@@ -36,48 +37,48 @@ namespace GameOfLifeTests
         public void GenerateRandom_GivenNumberOfRowsAndNumberOfColumns_BoardDimensionHaveCorrectLength(int noRows, int noColumns)
         {
             //Arrange
-            var board = new Board();
-            var generator = new BoardGenerator(board);
-            
+            var generator = new BoardGenerator();
+            var strategy = new BoardGenerationStrategyRandom(noRows, noColumns);
+
             //Act
-            generator.GenerateRandom(noRows, noColumns);
+            var board = generator.GenerateBoard(strategy);
 
             //Assert
-            Assert.That(board.LengthX.Equals(noRows));
-            Assert.That(board.LengthY.Equals(noColumns));
+            Assert.That(board.LengthRows.Equals(noRows));
+            Assert.That(board.LengthColumns.Equals(noColumns));
         }
 
         [Test]
         public void GenerateFromFile_GivenFileWithSingleAliveCharacter_BoardHasOneElementEqualToTrue()
         {
             //Arrange
-            var board = new Board();
-            var generator = new BoardGenerator(board);
+            var generator = new BoardGenerator();
+            var strategy = new BoardGenerationStrategyFromFile("C:\\a.txt", _fakeFileWrapper.Object);
 
             _fakeFileWrapper.Setup(_ => _.ReadAllText(It.IsAny<string>())).Returns($"{Constants.AliveChar}");
 
             //Act
-            generator.GenerateFromFile("C:\\a.txt", _fakeFileWrapper.Object);
+            var board = generator.GenerateBoard(strategy);
 
             //Assert
-            Assert.That(board.BoardArray[0,0].Equals(true));            
+            Assert.That(board.BoardArray[0, 0].Equals(true));
         }
 
         [Test]
         public void GenerateFromFile_GivenFileWithAliveAndDeadCharacter_BoardHasTrueAndFalse()
         {
             //Arrange
-            var board = new Board();
-            var generator = new BoardGenerator(board);
+            var generator = new BoardGenerator();
+            var strategy = new BoardGenerationStrategyFromFile("C:\\a.txt", _fakeFileWrapper.Object);
 
             _fakeFileWrapper.Setup(_ => _.ReadAllText(It.IsAny<string>())).Returns($"{Constants.AliveChar}\n{Constants.DeadChar}");
 
             //Act
-            generator.GenerateFromFile("C:\\a.txt", _fakeFileWrapper.Object);
+            var board = generator.GenerateBoard(strategy);
 
             //Assert
-            Assert.That(board.BoardArray[0,0].Equals(true));
-            Assert.That(board.BoardArray[1,0].Equals(false));
+            Assert.That(board.BoardArray[0, 0].Equals(true));
+            Assert.That(board.BoardArray[1, 0].Equals(false));
         }
     }
 }

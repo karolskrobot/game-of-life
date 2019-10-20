@@ -4,8 +4,10 @@ namespace GameOfLife
 {
     public interface IGame
     {
-        void NewGame();
-        bool SetOption();
-        void NewBoard(IBoardProcessor boardProcessor, IBoardGenerator boardGenerator, IFile fileWrapper);
+        void PrintNewGameScreen();
+
+        bool LoopReadingOptionKeyPressedReturnFalseWhenExit();
+
+        IBoard GenerateNewBoard(IBoardGenerator boardGenerator, IFile fileWrapper);
     }
 }
