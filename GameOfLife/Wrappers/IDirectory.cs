@@ -1,7 +1,9 @@
-﻿namespace GameOfLife.Wrappers
+﻿using System.Collections.Generic;
+
+namespace GameOfLife.Wrappers
 {
     public interface IDirectory
     {
-        string[] GetFiles(string path, string searchPattern);
+        IReadOnlyList<string> GetFileNames(string path, string searchPattern);
     }
 }

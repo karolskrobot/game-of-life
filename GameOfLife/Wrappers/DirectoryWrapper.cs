@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace GameOfLife.Wrappers
@@ -10,6 +12,7 @@ namespace GameOfLife.Wrappers
         {
         }
 
-        public string[] GetFiles(string path, string searchPattern) => Directory.GetFiles(path, searchPattern);
+        public IReadOnlyList<string> GetFileNames(string path, string searchPattern) 
+            => Array.AsReadOnly(Directory.GetFiles(path, searchPattern));
     }
 }
