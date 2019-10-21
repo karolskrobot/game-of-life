@@ -56,7 +56,7 @@ namespace GameOfLife
                     
                 var board = GenerateNewBoard(optionRead);
 
-                RenderBoardGeneration(board);
+                PrintBoardWithDelay(board);
                 LoopEvolveAndRenderBoardUntilEscapePressed(board);
 
             } while (true);
@@ -69,12 +69,12 @@ namespace GameOfLife
                 while (!_console.KeyAvailable)
                 {
                     _boardEvolver.EvolveBoard(board);
-                    RenderBoardGeneration(board);
+                    PrintBoardWithDelay(board);
                 }
             } while (_console.ReadKey(true) != ConsoleKey.Escape);
         }
 
-        private void RenderBoardGeneration(IBoard board)
+        private void PrintBoardWithDelay(IBoard board)
         {
             Thread.Sleep(100);
             _boardPrinter.PrintBoard(board);

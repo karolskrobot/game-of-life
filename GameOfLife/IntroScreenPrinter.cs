@@ -17,7 +17,7 @@ namespace GameOfLife
         public void PrintNewGameScreen(IReadOnlyList<string> fileNames)
         {
             PrintIntroText();
-            PrintPatternsFromFilesOptions(fileNames);
+            PrintOptionsPatternFiles(fileNames);
             PrintOptionRandom(fileNames);
             PrintChoiceText();
         }
@@ -40,7 +40,7 @@ namespace GameOfLife
             _console.WriteLine(string.Empty);
         }
 
-        private void PrintPatternsFromFilesOptions(IReadOnlyList<string> fileNames)
+        private void PrintOptionsPatternFiles(IReadOnlyList<string> fileNames)
         {
             for (var i = 0; i < fileNames.Count; i++)
             {

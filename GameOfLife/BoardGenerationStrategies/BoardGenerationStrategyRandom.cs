@@ -28,7 +28,7 @@ namespace GameOfLife.BoardGenerationStrategies
 
         private void AssignRandomValuesToTiles(IBoard board)
         {
-            // rand must be created here otherwise will return same values in loop
+            // Random must be created here otherwise will return same values in loop
             var rand = new Random();
 
             for (var row = 0; row < board.LengthRows; row++)

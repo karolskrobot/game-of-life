@@ -18,6 +18,6 @@ namespace GameOfLife.Wrappers
 
         ConsoleKey GetConsoleKey(ConsoleKeyInfo consoleKeyInfo);
 
-        string GetKeyCharToString(ConsoleKeyInfo consoleKeyInfo);
+        string GetConsoleKeyToString(ConsoleKeyInfo consoleKeyInfo);
     }
 }

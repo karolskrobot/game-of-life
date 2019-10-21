@@ -2,6 +2,6 @@
 {
     public interface IBoardEvolver
     {
-        void EvolveBoard(IBoard board);
+        void EvolveBoard(IBoard originalBoard);
     }
 }

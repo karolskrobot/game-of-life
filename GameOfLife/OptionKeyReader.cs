@@ -21,21 +21,21 @@ namespace GameOfLife
                 ConsoleKeyInfo input = _console.GetConsoleKeyInfoFromReadKey();
                 ConsoleKey keyPressed = _console.GetConsoleKey(input);
 
-                if (GetIsOptionExit(keyPressed))
+                if (CheckIsOptionExit(keyPressed))
                 {
                     option.OptionType = OptionType.Exit;
                     return option;
                 }
 
-                var inputToString = _console.GetKeyCharToString(input);
+                var inputToString = _console.GetConsoleKeyToString(input);
 
-                (bool validKeyPressed, int optionValue) = GetIsValidKeyPressedAndOptionValue(inputToString, fileNamesCount);
+                (bool validKeyPressed, int optionValue) = GetIsValidAndIntegerValueOfKeyPressed(inputToString, fileNamesCount);
 
                 if (!validKeyPressed)
                 {
                     _console.WriteLine("Wrong input. Try again.");
                 }
-                else if (GetIsOptionRandom(optionValue, fileNamesCount)) // random is the last option rendered after all filenames
+                else if (CheckIsOptionRandom(optionValue, fileNamesCount)) // random is the last option rendered after all filenames
                 {
                     option.OptionType = OptionType.Random;
                     return option;
@@ -48,13 +48,10 @@ namespace GameOfLife
                 }
             }
         }
+        
+        private bool CheckIsOptionExit(ConsoleKey input) => input == ConsoleKey.Escape;
 
-        private static void SetPositionInFileNameCollection(Option option, int optionChosen) 
-            => option.FileNameCollectionPosition = --optionChosen;
-
-        private bool GetIsOptionExit(ConsoleKey input) => input == ConsoleKey.Escape;
-
-        private (bool ValidKeyPressed, int OptionChosen) GetIsValidKeyPressedAndOptionValue(string input, int fileNamesCount)
+        private (bool ValidKeyPressed, int OptionChosen) GetIsValidAndIntegerValueOfKeyPressed(string input, int fileNamesCount)
         {
             var canBeParsed = int.TryParse(input, out var optionValue);
 
@@ -62,8 +59,11 @@ namespace GameOfLife
 
             return (valid, optionValue);
         }
-        
-        private bool GetIsOptionRandom(int optionValue, int fileNamesCount)
+
+        private bool CheckIsOptionRandom(int optionValue, int fileNamesCount)
             => optionValue == fileNamesCount + 1;
+
+        private static void SetPositionInFileNameCollection(Option option, int optionChosen) 
+            => option.FileNameCollectionPosition = --optionChosen;
     }
 }

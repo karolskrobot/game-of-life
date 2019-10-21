@@ -16,7 +16,7 @@ namespace GameOfLife.BoardGenerationStrategies
 
         public IBoard Generate()
         {
-            string[] rowStrings = GetRowStringsFromFile(_path, _fileWrapper);
+            string[] rowStrings = GetRowStringsFromFile(_path);
 
             var board = new Board()
             {
@@ -27,6 +27,10 @@ namespace GameOfLife.BoardGenerationStrategies
             
             return board;
         }
+
+        private string[] GetRowStringsFromFile(string path) => _fileWrapper.ReadAllText(path).Split('\n');
+
+        private int GetNumberOfColumnsFromLongestRowString(string[] rows) => rows.Select(row => row.Length).Max();
 
         private void AssignValuesToBoardTilesFromRowStrings(string[] rowStrings, IBoard board)
         {
@@ -48,12 +52,5 @@ namespace GameOfLife.BoardGenerationStrategies
                 }
             }
         }
-
-        private static int GetNumberOfColumnsFromLongestRowString(string[] rows) 
-            => rows.Select(row => row.Length)
-                    .ToList()
-                    .Max();
-
-        private static string[] GetRowStringsFromFile(string path, IFile fileWrapper) => fileWrapper.ReadAllText(path).Split('\n');
     }
 }

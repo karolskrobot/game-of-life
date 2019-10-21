@@ -9,56 +9,56 @@ namespace GameOfLife
         {
         }
 
-        public void EvolveBoard(IBoard board)
+        public void EvolveBoard(IBoard originalBoard)
         {
-            var secondBoard = GetSecondBoardWithEvolvedValues(board);
+            var newBoard = GetNewBoardWithEvolvedValues(originalBoard);
 
-            SetOriginalBoardArrayToSecondBoardArray(board, secondBoard);
+            SetOriginalBoardArrayToNewBoardArray(originalBoard, newBoard);
         }
 
-        private IBoard GetSecondBoardWithEvolvedValues(IBoard board)
+        private IBoard GetNewBoardWithEvolvedValues(IBoard originalBoard)
         {
-            var secondBoard = new Board
+            var newBoard = new Board
             {
-                BoardArray = new bool[board.LengthRows, board.LengthColumns]
+                BoardArray = new bool[originalBoard.LengthRows, originalBoard.LengthColumns]
             };
 
-            EvolveSecondBoardValues(board, secondBoard);
+            EvolveNewBoardValues(originalBoard, newBoard);
 
-            return secondBoard; 
+            return newBoard; 
         }
 
-        private void EvolveSecondBoardValues(IBoard board, IBoard secondBoard)
+        private void EvolveNewBoardValues(IBoard originalBoard, IBoard newBoard)
         {
-            for (var row = 0; row < board.LengthRows; row++)
+            for (var row = 0; row < originalBoard.LengthRows; row++)
             {
-                for (var col = 0; col < board.LengthColumns; col++)
+                for (var col = 0; col < originalBoard.LengthColumns; col++)
                 {
-                    IEnumerable<bool> neighbours = board.GetTileNeighbours(row, col);
+                    IEnumerable<bool> neighbours = originalBoard.GetTileNeighbours(row, col);
 
                     int aliveNeighboursCount = GetAliveNeighboursCount(neighbours);
 
-                    bool centerTileValue = board.GetTileValue(row, col);
+                    bool centerTileValue = originalBoard.GetTileValue(row, col);
 
                     if (centerTileValue == false && aliveNeighboursCount == 3)
                     {
-                        secondBoard.SetTileValue(row, col, true);
+                        newBoard.SetTileValue(row, col, true);
                     }
                     else if (centerTileValue == true && (aliveNeighboursCount < 2 || aliveNeighboursCount > 3))
                     {
-                        secondBoard.SetTileValue(row, col, false);
+                        newBoard.SetTileValue(row, col, false);
                     }
                     else
                     {
-                        secondBoard.SetTileValue(row, col, centerTileValue);
+                        newBoard.SetTileValue(row, col, centerTileValue);
                     }
                 }
             }
         }
 
-        private static void SetOriginalBoardArrayToSecondBoardArray(IBoard board, IBoard secondBoard) 
-            => board.BoardArray = secondBoard.BoardArray;
-
         private int GetAliveNeighboursCount(IEnumerable<bool> neighbours) => neighbours.Count(n => n == true);
+
+        private static void SetOriginalBoardArrayToNewBoardArray(IBoard board, IBoard secondBoard) 
+            => board.BoardArray = secondBoard.BoardArray;
     }
 }

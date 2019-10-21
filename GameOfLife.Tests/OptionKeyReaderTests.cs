@@ -38,7 +38,7 @@ namespace GameOfLifeTests
             int fileNamesCount, 
             string inputToString)
         {
-            _fakeConsole.Setup(_ => _.GetKeyCharToString(It.IsAny<ConsoleKeyInfo>())).Returns(inputToString);
+            _fakeConsole.Setup(_ => _.GetConsoleKeyToString(It.IsAny<ConsoleKeyInfo>())).Returns(inputToString);
 
             var result = _optionKeyReader.GetOptionFromKeyPress(fileNamesCount);
 
@@ -56,7 +56,7 @@ namespace GameOfLifeTests
             int fileNamesCount,
             string inputToString)
         {
-            _fakeConsole.Setup(_ => _.GetKeyCharToString(It.IsAny<ConsoleKeyInfo>())).Returns(inputToString);
+            _fakeConsole.Setup(_ => _.GetConsoleKeyToString(It.IsAny<ConsoleKeyInfo>())).Returns(inputToString);
 
             var result = _optionKeyReader.GetOptionFromKeyPress(fileNamesCount);
 
@@ -73,7 +73,7 @@ namespace GameOfLifeTests
             string thirdInputToString,
             OptionType optionType)
         {
-            _fakeConsole.SetupSequence(_ => _.GetKeyCharToString(It.IsAny<ConsoleKeyInfo>()))
+            _fakeConsole.SetupSequence(_ => _.GetConsoleKeyToString(It.IsAny<ConsoleKeyInfo>()))
                 .Returns("A")
                 .Returns(secondInputToString)
                 .Returns(thirdInputToString);
