@@ -23,64 +23,76 @@ namespace GameOfLifeTests
         [Test]
         public void GetOptionFromKeyPress_ExitCharacterPressed_ReturnsOptionWithOptionTypeExit()
         {
+            //Arrange
             _fakeConsole.Setup(_ => _.GetConsoleKey(It.IsAny<ConsoleKeyInfo>())).Returns(ConsoleKey.Escape);
 
+            //Act
             var result = _optionKeyReader.GetOptionFromKeyPress(It.IsAny<int>());
 
+            //Assert
             Assert.That(result.OptionType.Equals(OptionType.Exit));
         }
 
         [Test]
-        [TestCase(0, "1")]
-        [TestCase(1, "2")]
-        [TestCase(2, "3")]
+        [TestCase(1, "1")]
+        [TestCase(2, "2")]
+        [TestCase(3, "3")]
         public void GetOptionFromKeyPress_RandomOptionChosen_ReturnsOptionWithOptionTypeRandom(
-            int fileNamesCount, 
+            int randomOptionPosition, 
             string inputToString)
         {
+            //Arrange
             _fakeConsole.Setup(_ => _.GetConsoleKeyToString(It.IsAny<ConsoleKeyInfo>())).Returns(inputToString);
 
-            var result = _optionKeyReader.GetOptionFromKeyPress(fileNamesCount);
+            //Act
+            var result = _optionKeyReader.GetOptionFromKeyPress(randomOptionPosition);
 
+            //Assert
             Assert.That(result.OptionType.Equals(OptionType.Random));
         }
 
         [Test]
-        [TestCase(2, "1")]
-        [TestCase(2, "2")]
-        [TestCase(4, "1")]
+        [TestCase(3, "1")]
         [TestCase(4, "2")]
-        [TestCase(4, "3")]
-        [TestCase(4, "4")]
+        [TestCase(5, "1")]
+        [TestCase(5, "2")]
+        [TestCase(5, "3")]
+        [TestCase(5, "4")]
         public void GetOptionFromKeyPress_FromFileOptionChosen_ReturnsOptionWithOptionTypeFromFile(
-            int fileNamesCount,
+            int randomOptionPosition,
             string inputToString)
         {
+            //Arrange
             _fakeConsole.Setup(_ => _.GetConsoleKeyToString(It.IsAny<ConsoleKeyInfo>())).Returns(inputToString);
 
-            var result = _optionKeyReader.GetOptionFromKeyPress(fileNamesCount);
+            //Act
+            var result = _optionKeyReader.GetOptionFromKeyPress(randomOptionPosition);
 
+            //Assert
             Assert.That(result.OptionType.Equals(OptionType.FromFile));
         }
 
         [Test]
-        [TestCase(0, "2", "1", OptionType.Random )]
-        [TestCase(2, "4", "2", OptionType.FromFile)]
-        [TestCase(0, "0", "1", OptionType.Random)]
+        [TestCase(1, "2", "1", OptionType.Random )]
+        [TestCase(3, "4", "2", OptionType.FromFile)]
+        [TestCase(1, "0", "1", OptionType.Random)]
         public void GetOptionFromKeyPress_2IncorrectInputsUntilCorrect_WritesErrorMessage2TimesThenReturnsOptionWithCorrectOptionType(
-            int fileNamesCount, 
-            string secondInputToString, 
+            int randomOptionPosition, 
+            string secondInputToString,
             string thirdInputToString,
             OptionType optionType)
         {
+            //Arrange
             _fakeConsole.SetupSequence(_ => _.GetConsoleKeyToString(It.IsAny<ConsoleKeyInfo>()))
                 .Returns("A")
                 .Returns(secondInputToString)
                 .Returns(thirdInputToString);
 
-            var result = _optionKeyReader.GetOptionFromKeyPress(fileNamesCount);
+            //Act
+            var result = _optionKeyReader.GetOptionFromKeyPress(randomOptionPosition);
 
-            _fakeConsole.Verify(_ => _.WriteLine(It.Is<string>(c => c.ToString() == "Wrong input. Try again.")), Times.Exactly(2));
+            //Assert
+            _fakeConsole.Verify(_ => _.WriteLine(It.Is<string>(output => output.ToString() == "Wrong input. Try again.")), Times.Exactly(2));
             Assert.That(result.OptionType.Equals(optionType));
         }
     }

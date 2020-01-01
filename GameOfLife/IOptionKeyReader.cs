@@ -2,6 +2,6 @@
 {
     public interface IOptionKeyReader
     {
-        Option GetOptionFromKeyPress(int fileNamesCount);
+        Option GetOptionFromKeyPress(int optionRandomPosition);
     }
 }

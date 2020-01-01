@@ -1,4 +1,4 @@
-﻿using GameOfLife.BoardGenerationStrategies;
+﻿using GameOfLife.BoardArrayGeneration;
 using GameOfLife.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -9,57 +9,76 @@ namespace GameOfLife
     public class Application
     {
         private readonly IOptionKeyReader _optionKeyReader;
+        private readonly IBoardFactory _boardFactory;
         private readonly IConsole _console;
-        private readonly IFile _fileWrapper;
-        private readonly IIntroScreenPrinter _introScreenPrinter;
-        private readonly IFileNamesProvider _fileNamesProvider;
-        private readonly IBoardEvolver _boardEvolver;
-        private readonly IBoardGenerator _boardGenerator;
-        private readonly IBoardPrinter _boardPrinter;
+        private readonly IConsolePrinter _consolePrinter;
+        
         private readonly IReadOnlyList<string> _fileNames;
+        private readonly IFile _fileWrapper;
 
         public Application(
             IConsole console,
-            IFile fileWrapper,
-            IIntroScreenPrinter introScreenPrinter,
+            IConsolePrinter consolePrinter,
             IFileNamesProvider fileNamesProvider,
             IOptionKeyReader optionKeyReader,
-            IBoardEvolver boardEvolver, 
-            IBoardGenerator boardGenerator, 
-            IBoardPrinter boardPrinter
-        )
+            IBoardFactory boardFactory, 
+            IFile fileWrapper)
         {
-            _optionKeyReader = optionKeyReader;
             _console = console;
+            _consolePrinter = consolePrinter;
+            _optionKeyReader = optionKeyReader;
+            _boardFactory = boardFactory;
             _fileWrapper = fileWrapper;
-            _introScreenPrinter = introScreenPrinter;
-            _fileNamesProvider = fileNamesProvider;
-            _boardEvolver = boardEvolver;
-            _boardGenerator = boardGenerator;
-            _boardPrinter = boardPrinter;
 
-            _fileNames = _fileNamesProvider.GetFileNamesForPatternFiles();
+            _fileNames = fileNamesProvider.GetFileNamesForPatternFiles();
         }
 
         public void Run()
         {
             do
             {
-                _introScreenPrinter.PrintNewGameScreen(_fileNames);
+                _consolePrinter.PrintNewGameScreen(_fileNames);
 
-                var optionRead = _optionKeyReader.GetOptionFromKeyPress(_fileNames.Count);
+                var optionRandomPosition = _fileNames.Count + 1; // random is the last option rendered after all filenames
+                var optionRead = _optionKeyReader.GetOptionFromKeyPress(optionRandomPosition);
 
                 if (optionRead.OptionType == OptionType.Exit)
                 {
                     break;
                 }
-                    
-                var board = GenerateNewBoard(optionRead);
 
+                var board = CreateBoard(optionRead);
                 PrintBoardWithDelay(board);
                 LoopEvolveAndRenderBoardUntilEscapePressed(board);
 
             } while (true);
+        }
+
+        private IBoard CreateBoard(Option optionRead)
+        {
+            var boardArrayStrategy = CreateBoardArrayStrategy(optionRead);
+            return _boardFactory.CreateBoard(boardArrayStrategy);
+        }
+
+        private IBoardArrayStrategy CreateBoardArrayStrategy(Option option)
+        {
+            if (option.OptionType == OptionType.Random)
+            {
+                return new BoardArrayStrategyRandom(Constants.BoardRows, Constants.BoardColumns);
+            }
+
+            if (option.OptionType == OptionType.FromFile)
+            {
+                return new BoardArrayStrategyFromFile(_fileNames[option.FileNameCollectionPosition], _fileWrapper);
+            }
+
+            throw new NotSupportedException("Unable to generate new board. Incorrect option type.");
+        }
+
+        private void PrintBoardWithDelay(IBoard board)
+        {
+            Thread.Sleep(100);
+            _consolePrinter.PrintBoard(board);
         }
 
         private void LoopEvolveAndRenderBoardUntilEscapePressed(IBoard board)
@@ -68,38 +87,10 @@ namespace GameOfLife
             {
                 while (!_console.KeyAvailable)
                 {
-                    _boardEvolver.EvolveBoard(board);
+                    board.Evolve();
                     PrintBoardWithDelay(board);
                 }
             } while (_console.ReadKey(true) != ConsoleKey.Escape);
         }
-
-        private void PrintBoardWithDelay(IBoard board)
-        {
-            Thread.Sleep(100);
-            _boardPrinter.PrintBoard(board);
-        }
-
-        private IBoard GenerateNewBoard(Option option)
-        {
-            if (option.OptionType == OptionType.Random)
-            {
-                var boardGenerationStrategyRandom = 
-                    new BoardGenerationStrategyRandom(Constants.BoardRows, Constants.BoardColumns);
-
-                return _boardGenerator.GenerateBoard(boardGenerationStrategyRandom);
-            }
-
-            if (option.OptionType == OptionType.FromFile)
-            {
-                var boardGenerationStrategyFromFile =
-                    new BoardGenerationStrategyFromFile(_fileNames[option.FileNameCollectionPosition], _fileWrapper);
-
-                return _boardGenerator.GenerateBoard(boardGenerationStrategyFromFile);
-            }
-
-            throw new NotSupportedException("Unable to generate new board. Incorrect option type.");
-        }
-
     }
 }

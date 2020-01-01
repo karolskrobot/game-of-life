@@ -12,7 +12,7 @@ namespace GameOfLife
             _console = console;
         }
         
-        public Option GetOptionFromKeyPress(int fileNamesCount)
+        public Option GetOptionFromKeyPress(int optionRandomPosition)
         {            
             var option = new Option();
 
@@ -29,13 +29,13 @@ namespace GameOfLife
 
                 var inputToString = _console.GetConsoleKeyToString(input);
 
-                (bool validKeyPressed, int optionValue) = GetIsValidAndIntegerValueOfKeyPressed(inputToString, fileNamesCount);
+                (bool validKeyPressed, int optionValue) = GetIsValidAndIntegerValueOfKeyPressed(inputToString, optionRandomPosition);
 
                 if (!validKeyPressed)
                 {
                     _console.WriteLine("Wrong input. Try again.");
                 }
-                else if (CheckIsOptionRandom(optionValue, fileNamesCount)) // random is the last option rendered after all filenames
+                else if (CheckIsOptionRandom(optionValue, optionRandomPosition))
                 {
                     option.OptionType = OptionType.Random;
                     return option;
@@ -51,17 +51,16 @@ namespace GameOfLife
         
         private bool CheckIsOptionExit(ConsoleKey input) => input == ConsoleKey.Escape;
 
-        private (bool ValidKeyPressed, int OptionChosen) GetIsValidAndIntegerValueOfKeyPressed(string input, int fileNamesCount)
+        private (bool ValidKeyPressed, int OptionChosen) GetIsValidAndIntegerValueOfKeyPressed(string input, int optionRandomPosition)
         {
             var canBeParsed = int.TryParse(input, out var optionValue);
 
-            var valid = canBeParsed && optionValue >= 1 && optionValue <= fileNamesCount + 1;
+            var valid = canBeParsed && optionValue >= 1 && optionValue <= optionRandomPosition;
 
             return (valid, optionValue);
         }
 
-        private bool CheckIsOptionRandom(int optionValue, int fileNamesCount)
-            => optionValue == fileNamesCount + 1;
+        private bool CheckIsOptionRandom(int optionValue, int optionRandomPosition) => optionValue == optionRandomPosition;
 
         private static void SetPositionInFileNameCollection(Option option, int optionChosen) 
             => option.FileNameCollectionPosition = --optionChosen;

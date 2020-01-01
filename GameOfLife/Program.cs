@@ -16,12 +16,10 @@ namespace GameOfLife
             builder.RegisterType<ConsoleWrapper>().As<IConsole>();
             builder.RegisterType<FileWrapper>().As<IFile>();
             builder.RegisterType<DirectoryWrapper>().As<IDirectory>();
-            builder.RegisterType<IntroScreenPrinter>().As<IIntroScreenPrinter>();
+            builder.RegisterType<ConsolePrinter>().As<IConsolePrinter>();
             builder.RegisterType<OptionKeyReader>().As<IOptionKeyReader>();
-            builder.RegisterType<BoardEvolver>().As<IBoardEvolver>();
-            builder.RegisterType<BoardGenerator>().As<IBoardGenerator>();
-            builder.RegisterType<BoardPrinter>().As<IBoardPrinter>();
             builder.RegisterType<FileNamesProvider>().As<IFileNamesProvider>();
+            builder.RegisterType<BoardFactory>().As<IBoardFactory>();
             builder.RegisterType<Application>();
 
             Container = builder.Build();

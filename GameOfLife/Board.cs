@@ -1,20 +1,56 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace GameOfLife
 {
     public class Board : IBoard
     {
-        public bool[,] BoardArray { get; set; }
+        public Board(bool[,] boardArray)
+        {
+            _boardArray = boardArray;
+        }
 
-        public int LengthRows => BoardArray.GetLength(0);
+        private bool[,] _boardArray;
 
-        public int LengthColumns => BoardArray.GetLength(1);
+        public int LengthRows => _boardArray.GetLength(0);
 
-        public bool GetTileValue(int row, int column) => BoardArray[row, column];
+        public int LengthColumns => _boardArray.GetLength(1);
 
-        public void SetTileValue(int row, int column, bool value) => BoardArray[row, column] = value;
+        public bool GetTileValue(int row, int column) => _boardArray[row, column];
 
-        public IEnumerable<bool> GetTileNeighbours(int centerTileRow, int centerTileColumn)
+        public void Evolve()
+        {
+            var evolvedBoardArray = new bool[LengthRows, LengthColumns];
+
+            for (var row = 0; row < LengthRows; row++)
+            {
+                for (var col = 0; col < LengthColumns; col++)
+                {
+                    IEnumerable<bool> neighbours = GetTileNeighbours(row, col);
+
+                    int aliveNeighboursCount = GetAliveNeighboursCount(neighbours);
+
+                    bool centerTileValue = GetTileValue(row, col);
+
+                    if (centerTileValue == false && aliveNeighboursCount == 3)
+                    {
+                        evolvedBoardArray[row, col] = true;
+                    }
+                    else if (centerTileValue == true && (aliveNeighboursCount < 2 || aliveNeighboursCount > 3))
+                    {
+                        evolvedBoardArray[row, col] = false;
+                    }
+                    else
+                    {
+                        evolvedBoardArray[row, col] = centerTileValue;
+                    }
+                }
+            }
+
+            _boardArray = evolvedBoardArray;
+        }
+
+        private IEnumerable<bool> GetTileNeighbours(int centerTileRow, int centerTileColumn)
         {
             var neighbours = new List<bool>();
 
@@ -46,5 +82,7 @@ namespace GameOfLife
 
             return neighbours;
         }
+
+        private int GetAliveNeighboursCount(IEnumerable<bool> neighbours) => neighbours.Count(n => n == true);
     }
 }

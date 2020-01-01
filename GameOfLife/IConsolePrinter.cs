@@ -2,8 +2,10 @@
 
 namespace GameOfLife
 {
-    public interface IIntroScreenPrinter
+    public interface IConsolePrinter
     {
         void PrintNewGameScreen(IReadOnlyList<string> fileNames);
+
+        void PrintBoard(IBoard board);
     }
 }

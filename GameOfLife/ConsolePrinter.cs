@@ -5,11 +5,11 @@ using System.IO;
 
 namespace GameOfLife
 {
-    public class IntroScreenPrinter : IIntroScreenPrinter
+    public class ConsolePrinter : IConsolePrinter
     {
         private readonly IConsole _console;
 
-        public IntroScreenPrinter(IConsole console)
+        public ConsolePrinter(IConsole console)
         {
             _console = console;
         }
@@ -54,5 +54,30 @@ namespace GameOfLife
         
         private void PrintPatternFromFileOption(int i, IReadOnlyList<string> fileNames)
             => _console.WriteLine($"{i + 1}: {Path.GetFileNameWithoutExtension(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(fileNames[i]))}");
+
+        public void PrintBoard(IBoard board)
+        {
+            _console.Clear();
+            _console.WriteLine(string.Empty);
+            PrintTiles(board);
+            _console.WriteLine(string.Empty);
+            _console.WriteLine("Press ESC to return.");
+        }
+
+        private void PrintTiles(IBoard board)
+        {
+            for (var row = 0; row < board.LengthRows; row++)
+            {
+                for (var col = 0; col < board.LengthColumns; col++)
+                {
+                    var valueToPrint = board.GetTileValue(row, col);
+                    PrintTile(valueToPrint);
+                }
+
+                _console.WriteLine(string.Empty);
+            }
+        }
+
+        private void PrintTile(bool valueToPrint) => _console.Write(valueToPrint ? Constants.AliveChar : Constants.DeadChar);
     }
 }
