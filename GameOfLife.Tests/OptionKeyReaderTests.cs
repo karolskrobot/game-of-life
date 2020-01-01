@@ -1,8 +1,9 @@
 ﻿using GameOfLife;
-using GameOfLife.Wrappers;
 using Moq;
 using NUnit.Framework;
 using System;
+using GameOfLife.IO;
+using GameOfLife.IO.Wrappers;
 
 namespace GameOfLifeTests
 {

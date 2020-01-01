@@ -1,5 +1,7 @@
 using Autofac;
-using GameOfLife.Wrappers;
+using GameOfLife.Core;
+using GameOfLife.IO;
+using GameOfLife.IO.Wrappers;
 using System.Diagnostics.CodeAnalysis;
 
 namespace GameOfLife

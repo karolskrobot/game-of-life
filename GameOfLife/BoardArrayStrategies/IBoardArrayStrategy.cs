@@ -1,4 +1,4 @@
-﻿namespace GameOfLife.BoardArrayGeneration
+﻿namespace GameOfLife.BoardArrayStrategies
 {
     public interface IBoardArrayStrategy
     {

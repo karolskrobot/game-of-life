@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using GameOfLife.Wrappers;
+﻿using GameOfLife.Core;
+using GameOfLife.IO.Wrappers;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
-namespace GameOfLife
+namespace GameOfLife.IO
 {
     public class ConsolePrinter : IConsolePrinter
     {

@@ -1,4 +1,4 @@
-﻿namespace GameOfLife.Wrappers
+﻿namespace GameOfLife.IO.Wrappers
 {
     public interface IFile
     {

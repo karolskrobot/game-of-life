@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameOfLife.Wrappers
+namespace GameOfLife.IO.Wrappers
 {
     public interface IDirectory
     {

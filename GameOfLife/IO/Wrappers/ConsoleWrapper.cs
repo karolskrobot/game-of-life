@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace GameOfLife.Wrappers
+namespace GameOfLife.IO.Wrappers
 {
     [ExcludeFromCodeCoverage]
     public class ConsoleWrapper : IConsole

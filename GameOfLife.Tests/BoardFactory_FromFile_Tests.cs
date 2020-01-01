@@ -1,6 +1,7 @@
-﻿using GameOfLife;
-using GameOfLife.BoardArrayGeneration;
-using GameOfLife.Wrappers;
+﻿using GameOfLife.BoardArrayStrategies;
+using GameOfLife.Core;
+using GameOfLife.IO;
+using GameOfLife.IO.Wrappers;
 using Moq;
 using NUnit.Framework;
 

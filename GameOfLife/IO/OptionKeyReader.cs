@@ -1,7 +1,7 @@
-﻿using GameOfLife.Wrappers;
+﻿using GameOfLife.IO.Wrappers;
 using System;
 
-namespace GameOfLife
+namespace GameOfLife.IO
 {
     public class OptionKeyReader : IOptionKeyReader
     {

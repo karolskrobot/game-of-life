@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
-namespace GameOfLife.Wrappers
+namespace GameOfLife.IO.Wrappers
 {
     [ExcludeFromCodeCoverage]
     public class DirectoryWrapper : IDirectory

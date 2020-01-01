@@ -1,5 +1,6 @@
 ﻿using GameOfLife;
-using GameOfLife.BoardArrayGeneration;
+using GameOfLife.BoardArrayStrategies;
+using GameOfLife.Core;
 using NUnit.Framework;
 
 namespace GameOfLifeTests

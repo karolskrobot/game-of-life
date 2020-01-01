@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using GameOfLife.Core;
+using System.Collections.Generic;
 
-namespace GameOfLife
+namespace GameOfLife.IO
 {
     public interface IConsolePrinter
     {

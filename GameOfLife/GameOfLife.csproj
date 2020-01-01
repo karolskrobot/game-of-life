@@ -85,30 +85,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="Board.cs" />
-    <Compile Include="BoardFactory.cs" />
-    <Compile Include="BoardArrayGeneration\BoardArrayStrategyFromFile.cs" />
-    <Compile Include="BoardArrayGeneration\IBoardArrayStrategy.cs" />
-    <Compile Include="IBoard.cs" />
-    <Compile Include="IBoardFactory.cs" />
-    <Compile Include="IFileNamesProvider.cs" />
-    <Compile Include="OptionType.cs" />
-    <Compile Include="FileNamesProvider.cs" />
-    <Compile Include="BoardArrayGeneration\BoardArrayStrategyRandom.cs" />
-    <Compile Include="IConsolePrinter.cs" />
-    <Compile Include="ConsolePrinter.cs" />
-    <Compile Include="Option.cs" />
-    <Compile Include="Wrappers\ConsoleWrapper.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="OptionKeyReader.cs" />
-    <Compile Include="IOptionKeyReader.cs" />
-    <Compile Include="Wrappers\DirectoryWrapper.cs" />
-    <Compile Include="Wrappers\FileWrapper.cs" />
+    <Compile Include="Core\Board.cs" />
+    <Compile Include="Core\BoardFactory.cs" />
+    <Compile Include="BoardArrayStrategies\BoardArrayStrategyFromFile.cs" />
+    <Compile Include="BoardArrayStrategies\IBoardArrayStrategy.cs" />
+    <Compile Include="Core\IBoard.cs" />
+    <Compile Include="Core\IBoardFactory.cs" />
+    <Compile Include="IO\IFileNamesProvider.cs" />
+    <Compile Include="IO\OptionType.cs" />
+    <Compile Include="IO\FileNamesProvider.cs" />
+    <Compile Include="BoardArrayStrategies\BoardArrayStrategyRandom.cs" />
+    <Compile Include="IO\IConsolePrinter.cs" />
+    <Compile Include="IO\ConsolePrinter.cs" />
+    <Compile Include="IO\Option.cs" />
+    <Compile Include="IO\Wrappers\ConsoleWrapper.cs" />
+    <Compile Include="IO\Constants.cs" />
+    <Compile Include="IO\OptionKeyReader.cs" />
+    <Compile Include="IO\IOptionKeyReader.cs" />
+    <Compile Include="IO\Wrappers\DirectoryWrapper.cs" />
+    <Compile Include="IO\Wrappers\FileWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wrappers\IConsole.cs" />
-    <Compile Include="Wrappers\IDirectory.cs" />
-    <Compile Include="Wrappers\IFile.cs" />
+    <Compile Include="IO\Wrappers\IConsole.cs" />
+    <Compile Include="IO\Wrappers\IDirectory.cs" />
+    <Compile Include="IO\Wrappers\IFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

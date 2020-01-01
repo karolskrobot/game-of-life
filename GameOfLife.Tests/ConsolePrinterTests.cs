@@ -1,5 +1,6 @@
-﻿using GameOfLife;
-using GameOfLife.Wrappers;
+﻿using GameOfLife.Core;
+using GameOfLife.IO;
+using GameOfLife.IO.Wrappers;
 using Moq;
 using NUnit.Framework;
 

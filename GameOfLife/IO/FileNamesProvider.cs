@@ -1,10 +1,10 @@
-﻿using GameOfLife.Wrappers;
+﻿using GameOfLife.IO.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace GameOfLife
+namespace GameOfLife.IO
 {
     public class FileNamesProvider : IFileNamesProvider
     {

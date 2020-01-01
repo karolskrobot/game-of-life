@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GameOfLife.BoardArrayGeneration
+namespace GameOfLife.BoardArrayStrategies
 {
     public class BoardArrayStrategyRandom : IBoardArrayStrategy
     {

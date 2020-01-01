@@ -1,7 +1,8 @@
-﻿using GameOfLife.Wrappers;
+﻿using GameOfLife.IO;
+using GameOfLife.IO.Wrappers;
 using System.Linq;
 
-namespace GameOfLife.BoardArrayGeneration
+namespace GameOfLife.BoardArrayStrategies
 {
     public class BoardArrayStrategyFromFile : IBoardArrayStrategy
     {

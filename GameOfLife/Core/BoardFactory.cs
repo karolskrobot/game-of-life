@@ -1,6 +1,6 @@
-﻿using GameOfLife.BoardArrayGeneration;
+﻿using GameOfLife.BoardArrayStrategies;
 
-namespace GameOfLife
+namespace GameOfLife.Core
 {
     public class BoardFactory : IBoardFactory
     {

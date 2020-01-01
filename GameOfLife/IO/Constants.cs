@@ -1,4 +1,4 @@
-﻿namespace GameOfLife
+﻿namespace GameOfLife.IO
 {
     public static class Constants
     {
